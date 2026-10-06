@@ -67,6 +67,7 @@ export async function enviarMensaje(texto, silent = false, onSpeakEnd = null) {
     });
 
     if (!response.ok) {
+      
       console.error(
         `[Fetch Error] Falló respuesta del servidor. Status HTTP: ${response.status} ${response.statusText}`
       );
@@ -78,8 +79,17 @@ export async function enviarMensaje(texto, silent = false, onSpeakEnd = null) {
       throw new Error(errorData.reply || `Error HTTP: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log(`[Fetch Success] Datos recibidos exitosamente:`, data);
+    //nuevo 
+   const texto = await response.text();
+console.log("[Respuesta cruda del servidor]:", texto.slice(0, 800));
+
+let data;
+try {
+  data = JSON.parse(texto);
+} catch (e) {
+  throw new Error("El servidor no devolvió JSON. Revisa la consola.");
+}
+console.log(`[Fetch Success] Datos recibidos exitosamente:`, data);
 
     if (data && data.reply) {
       const respuestaIA = data.reply;

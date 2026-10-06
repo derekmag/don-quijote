@@ -17,31 +17,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 /* ============================================================
    1. CONFIGURACIÓN DE SEGURIDAD Y CARGA DE VARIABLES
    ============================================================ */
-// 1. Intentar leer desde el sistema
-$apiKey = getenv("DEEPSEEK_API_KEY");
+$apiKey = getenv("GEMINI_API_KEY");
 
-// 2. Si no existe en el sistema, buscar en .env
 if (!$apiKey) {
     $envPath = __DIR__ . '/.env';
     if (file_exists($envPath)) {
         $env = @parse_ini_file($envPath);
-        $apiKey = $env["DEEPSEEK_API_KEY"] ?? $env["DEEPSEEK_API_KEY"] ?? null;
+        $apiKey = $env["GEMINI_API_KEY"] ?? null;
     }
 }
 
+// Validar presencia de la API Key
+if (!$apiKey) {
+    echo json_encode(["error" => "❌ GEMINI_API_KEY no configurada en el sistema ni en .env"]);
+    exit;
+}
 
 /* ============================================================
-   2. MODELOS NATIVOS DE DEEPSEEK
-   ============================================================ */
-$modelos = [
-    "chat"     => "deepseek-chat",
-    "deepseek" => "deepseek-v4-flash",
-    "pro"      => "deepseek-v4-pro",
-];
-
-
-/* ============================================================
-   3. PROCESAR ENTRADA DEL USUARIO
+   2. PROCESAR ENTRADA DEL USUARIO
    ============================================================ */
 $input = json_decode(file_get_contents("php://input"), true);
 
@@ -52,16 +45,12 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 
 $mensaje_usuario = $input["message"] ?? "";
 $historial = $input["history"] ?? [];
-$modelo_solicitado = $input["model"] ?? "chat";
 $es_resumen = ($input["isSummary"] ?? false) === true;
 
-// Selección de modelo (por defecto deepseek-v4-flash)
-$modelo_activo = $modelos[$modelo_solicitado] ?? $modelos["chat"];
-
 /* ============================================================
-   PROMPT DEL SISTEMA Y MENSAJES (OPTIMIZADO)
+   3. PROMPT DEL SISTEMA Y ESTRUCTURA PARA LEMONY SNICKET
    ============================================================ */
-$system_prompt = "You are Lemony Snicket, a gloomy English tutor. Rules:
+$system_instruction_text = "You are Lemony Snicket, a gloomy English tutor. Rules:
 - Speak English.
 - Always explain vocabulary using 'a word which here means...'.
 - Use examples from 'The Bad Beginning' (Count Olaf, Baudelaire orphans, burnt mansion).
@@ -73,12 +62,10 @@ $system_prompt = "You are Lemony Snicket, a gloomy English tutor. Rules:
 - Do not say you are AI.";
 
 if ($es_resumen) {
-    $system_prompt = "Summarize this lesson in 2 gloomy sentences as Lemony Snicket.";
+    $system_instruction_text = "Summarize this lesson in 2 gloomy sentences as Lemony Snicket.";
 }
 
-$mensajes = [["role" => "system", "content" => $system_prompt]];
-
-// Limitar historial a 6 turnos para ahorrar el máximo de tokens
+$contents = [];
 $limite_mensajes = 6;
 if (!$es_resumen) {
     $historial = array_slice($historial, -$limite_mensajes);
@@ -86,37 +73,75 @@ if (!$es_resumen) {
 
 foreach ($historial as $turno) {
     if (isset($turno["role"], $turno["content"])) {
-        // Truncar mensajes anteriores a 300 caracteres
+        $role = ($turno["role"] === "assistant") ? "model" : "user";
         $contenido_recortado = mb_substr((string)$turno["content"], 0, 300);
-        $mensajes[] = [
-            "role" => $turno["role"],
-            "content" => $contenido_recortado
+        
+        $contents[] = [
+            "role" => $role,
+            "parts" => [["text" => $contenido_recortado]]
         ];
     }
 }
 
 if (!$es_resumen && $mensaje_usuario !== "") {
-    $mensajes[] = ["role" => "user", "content" => $mensaje_usuario];
+    $contents[] = [
+        "role" => "user",
+        "parts" => [["text" => $mensaje_usuario]]
+    ];
 }
 
 /* ============================================================
-   5. LLAMADA A LA API DIRECTA DE DEEPSEEK
+   4. LLAMADA A LA API DE GEMINI CON REINTENTO AUTOMÁTICO
    ============================================================ */
 $json_payload = json_encode([
-    "model" => $modelo_activo,
-    "messages" => $mensajes,
-    "temperature" => $es_resumen ? 0.3 : 0.8,
-    "max_tokens" => $es_resumen ? 150 : 500,
-    "stream" => false
+    "system_instruction" => [
+        "parts" => [["text" => $system_instruction_text]]
+    ],
+    "contents" => $contents,
+    "generationConfig" => [
+        "temperature" => $es_resumen ? 0.3 : 0.8,
+        "maxOutputTokens" => $es_resumen ? 150 : 500
+    ]
 ]);
 
 $payload_size = strlen($json_payload);
+$url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=" . trim($apiKey);
 
-// URL completa con /chat/completions
-$ch = curl_init("https://api.deepseek.com/chat/completions");
+$response = false;
+$httpCode = 0;
+$max_intentos = 3;
+$intento = 0;
+
+// Bucle para reintentar automáticamente si hay alta demanda
+while ($intento < $max_intentos && ($response === false || $httpCode !== 200)) {
+    $intento++;
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_payload);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Si falla por alta demanda u otro código de error temporal, espera 1 segundo y vuelve a intentar
+    if ($httpCode !== 200 && $intento < $max_intentos) {
+        sleep(1); 
+    }
+}
+
+$payload_size = strlen($json_payload);
+
+// URL estable usando la ruta v1
+// URL actualizada con un modelo vigente
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . trim($apiKey);
+
+$ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Authorization: Bearer " . trim($apiKey),
     "Content-Type: application/json"
 ]);
 curl_setopt($ch, CURLOPT_POST, true);
@@ -124,6 +149,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $json_payload);
 curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
 $response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 if ($response === false) {
     echo json_encode(["reply" => "Error de conexión: " . curl_error($ch)]);
@@ -132,38 +158,35 @@ if ($response === false) {
 curl_close($ch);
 
 /* ============================================================
-   6. PROCESAR RESPUESTA DE LA IA
+   5. PROCESAR RESPUESTA DE GEMINI
    ============================================================ */
 $data = json_decode($response, true);
+$mensaje_modelo = "";
 
-if (!isset($data["choices"][0]["message"]["content"])) {
-    $api_error = $data["error"]["message"] ?? "Error a stranger";
-    error_log("DeepSeek Error: " . ($response ?: "No response"));
-    echo json_encode(["reply" => "Good heavens! A charming evil has interfered!. ($api_error)"]);
+if ($httpCode === 200 && isset($data["candidates"][0]["content"]["parts"][0]["text"])) {
+    $mensaje_modelo = $data["candidates"][0]["content"]["parts"][0]["text"];
+} else {
+    $api_error = $data["error"]["message"] ?? "Error desconocido";
+    error_log("Gemini Error: " . ($response ?: "No response"));
+    echo json_encode(["reply" => "Good heavens! A charming evil has interfered! ($api_error)"]);
     exit;
 }
 
-$mensaje_modelo = $data["choices"][0]["message"]["content"] ?? "";
-$razonamiento = $data["choices"][0]["message"]["reasoning"] ?? "";
-
 if (trim($mensaje_modelo) === "") {
-    if ($razonamiento !== "") {
-        $lineas = explode("\n", trim($razonamiento));
-        $mensaje_modelo = trim(end($lineas));
-    } else {
-        $mensaje_modelo = "Good heavens! My thoughts have gone blank.";
-    }
+    $mensaje_modelo = "Good heavens! My thoughts have gone blank.";
 }
 
 /* ============================================================
-   RESPUESTA FINAL
+   6. RESPUESTA FINAL
    ============================================================ */
 echo json_encode([
     "reply" => $mensaje_modelo,
-    "model" => $modelo_activo,
+    "model" => "gemini-2.0-flash",
     "metrics" => [
         "payload_bytes" => $payload_size,
-        "message_count" => count($mensajes),
-        "estimated_tokens" => ceil($payload_size / 4) // Estimación ruda
+        "message_count" => count($contents),
+        "estimated_tokens" => ceil($payload_size / 4)
     ]
 ]);
+?>
+
