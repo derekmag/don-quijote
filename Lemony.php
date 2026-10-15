@@ -2,23 +2,22 @@
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
-// Configuración de CORS y cabeceras
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json; charset=utf-8");
 
-// Manejo de peticiones preflight (OPTIONS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-/* ============================================================
-   1. CONFIGURACIÓN DE SEGURIDAD Y CARGA DE VARIABLES
-   ============================================================ */
-$apiKey = getenv("GEMINI_API_KEY");
+/* ============ 1. API KEY Y MODELOS ============ */
+// Primero se intenta el primero; si está saturado, pasa al siguiente.
+// Verifica los nombres en https://ai.google.dev/gemini-api/docs/models
+$MODELOS = ["gemini-3.8-flash"];
 
+$apiKey = getenv("GEMINI_API_KEY");
 if (!$apiKey) {
     $envPath = __DIR__ . '/.env';
     if (file_exists($envPath)) {
@@ -26,20 +25,15 @@ if (!$apiKey) {
         $apiKey = $env["GEMINI_API_KEY"] ?? null;
     }
 }
-
-// Validar presencia de la API Key
 if (!$apiKey) {
-    echo json_encode(["error" => "❌ GEMINI_API_KEY no configurada en el sistema ni en .env"]);
+    echo json_encode(["reply" => "Error: GEMINI_API_KEY is not configured in .env"]);
     exit;
 }
 
-/* ============================================================
-   2. PROCESAR ENTRADA DEL USUARIO
-   ============================================================ */
+/* ============ 2. ENTRADA ============ */
 $input = json_decode(file_get_contents("php://input"), true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(["error" => "JSON inválido"]);
+if (json_last_error() !== JSON_ERROR_NONE || !is_array($input)) {
+    echo json_encode(["reply" => "Error: invalid JSON"]);
     exit;
 }
 
@@ -47,9 +41,7 @@ $mensaje_usuario = $input["message"] ?? "";
 $historial = $input["history"] ?? [];
 $es_resumen = ($input["isSummary"] ?? false) === true;
 
-/* ============================================================
-   3. PROMPT DEL SISTEMA Y ESTRUCTURA PARA LEMONY SNICKET
-   ============================================================ */
+/* ============ 3. PROMPT ============ */
 $system_instruction_text = "You are Lemony Snicket, a gloomy English tutor. Rules:
 - Speak English.
 - Always explain vocabulary using 'a word which here means...'.
@@ -66,109 +58,97 @@ if ($es_resumen) {
 }
 
 $contents = [];
-$limite_mensajes = 6;
 if (!$es_resumen) {
-    $historial = array_slice($historial, -$limite_mensajes);
+    $historial = array_slice($historial, -6);
 }
 
 foreach ($historial as $turno) {
     if (isset($turno["role"], $turno["content"])) {
         $role = ($turno["role"] === "assistant") ? "model" : "user";
-        $contenido_recortado = mb_substr((string)$turno["content"], 0, 300);
-        
         $contents[] = [
             "role" => $role,
-            "parts" => [["text" => $contenido_recortado]]
+            "parts" => [["text" => mb_substr((string)$turno["content"], 0, 300)]]
         ];
     }
 }
 
-if (!$es_resumen && $mensaje_usuario !== "") {
-    $contents[] = [
-        "role" => "user",
-        "parts" => [["text" => $mensaje_usuario]]
-    ];
+// chat.js ya incluye el mensaje actual en el historial: solo se añade si falta
+$ultimo = end($contents);
+$ya_incluido = $ultimo && $ultimo["role"] === "user"
+    && ($ultimo["parts"][0]["text"] ?? "") === mb_substr($mensaje_usuario, 0, 300);
+
+if (!$es_resumen && $mensaje_usuario !== "" && !$ya_incluido) {
+    $contents[] = ["role" => "user", "parts" => [["text" => $mensaje_usuario]]];
 }
 
-/* ============================================================
-   4. LLAMADA A LA API DE GEMINI CON REINTENTO AUTOMÁTICO
-   ============================================================ */
+// Gemini exige que el primer turno sea del usuario
+if (!empty($contents) && $contents[0]["role"] === "model") {
+    array_unshift($contents, ["role" => "user", "parts" => [["text" => "Hello"]]]);
+}
+
+if (empty($contents)) {
+    echo json_encode(["reply" => "Say something, dear child."]);
+    exit;
+}
+
+/* ============ 4. LLAMADA A GEMINI ============ */
 $json_payload = json_encode([
-    "system_instruction" => [
-        "parts" => [["text" => $system_instruction_text]]
-    ],
+    "system_instruction" => ["parts" => [["text" => $system_instruction_text]]],
     "contents" => $contents,
     "generationConfig" => [
         "temperature" => $es_resumen ? 0.3 : 0.8,
-        "maxOutputTokens" => $es_resumen ? 150 : 500
+        "maxOutputTokens" => $es_resumen ? 600 : 2048
     ]
 ]);
-
 $payload_size = strlen($json_payload);
-$url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=" . trim($apiKey);
 
 $response = false;
 $httpCode = 0;
-$max_intentos = 3;
-$intento = 0;
+$curl_error = "";
+$MODELO_USADO = $MODELOS[0];
 
-// Bucle para reintentar automáticamente si hay alta demanda
-while ($intento < $max_intentos && ($response === false || $httpCode !== 200)) {
-    $intento++;
-    
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_payload);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+foreach ($MODELOS as $MODELO) {
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/{$MODELO}:generateContent?key=" . trim($apiKey);
 
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    for ($intento = 1; $intento <= 3; $intento++) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_payload);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
-    // Si falla por alta demanda u otro código de error temporal, espera 1 segundo y vuelve a intentar
-    if ($httpCode !== 200 && $intento < $max_intentos) {
-        sleep(1); 
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_error = curl_error($ch);
+        curl_close($ch);
+
+        $temporal = ($response === false) || in_array($httpCode, [429, 500, 503]);
+        if (!$temporal) break;
+        if ($intento < 3) sleep($intento * 2); // 2 s, luego 4 s
     }
+
+    $MODELO_USADO = $MODELO;
+    if ($response !== false && $httpCode === 200) break; // éxito: no probar más modelos
 }
-
-$payload_size = strlen($json_payload);
-
-// URL estable usando la ruta v1
-// URL actualizada con un modelo vigente
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . trim($apiKey);
-
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Content-Type: application/json"
-]);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $json_payload);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 if ($response === false) {
-    echo json_encode(["reply" => "Error de conexión: " . curl_error($ch)]);
+    echo json_encode(["reply" => "Connection error: " . $curl_error]);
     exit;
 }
-curl_close($ch);
 
-/* ============================================================
-   5. PROCESAR RESPUESTA DE GEMINI
-   ============================================================ */
+/* ============ 5. RESPUESTA ============ */
 $data = json_decode($response, true);
-$mensaje_modelo = "";
 
 if ($httpCode === 200 && isset($data["candidates"][0]["content"]["parts"][0]["text"])) {
     $mensaje_modelo = $data["candidates"][0]["content"]["parts"][0]["text"];
 } else {
-    $api_error = $data["error"]["message"] ?? "Error desconocido";
-    error_log("Gemini Error: " . ($response ?: "No response"));
-    echo json_encode(["reply" => "Good heavens! A charming evil has interfered! ($api_error)"]);
+    error_log("Gemini Error: " . $response);
+    $busy = in_array($httpCode, [429, 503]);
+    $msg = $busy
+        ? "Good heavens! The library is terribly crowded. Please try again in a minute."
+        : "Good heavens! A charming evil has interfered. (" . ($data["error"]["message"] ?? "HTTP $httpCode") . ")";
+    echo json_encode(["reply" => $msg]);
     exit;
 }
 
@@ -176,17 +156,12 @@ if (trim($mensaje_modelo) === "") {
     $mensaje_modelo = "Good heavens! My thoughts have gone blank.";
 }
 
-/* ============================================================
-   6. RESPUESTA FINAL
-   ============================================================ */
 echo json_encode([
     "reply" => $mensaje_modelo,
-    "model" => "gemini-2.0-flash",
+    "model" => $MODELO_USADO,
     "metrics" => [
         "payload_bytes" => $payload_size,
         "message_count" => count($contents),
         "estimated_tokens" => ceil($payload_size / 4)
     ]
-]);
-?>
-
+], JSON_UNESCAPED_UNICODE);

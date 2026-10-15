@@ -120,7 +120,7 @@ for ($intento = 1; $intento <= 3; $intento++) {
     // Reintentar solo si es un fallo temporal
     $temporal = ($response === false) || in_array($httpCode, [429, 500, 503]);
     if (!$temporal) break;
-    if ($intento < 3) sleep(1);
+    if ($intento < 3) sleep($intento * 2);
 }
 
 if ($response === false) {
@@ -133,11 +133,16 @@ $data = json_decode($response, true);
 
 if ($httpCode === 200 && isset($data["candidates"][0]["content"]["parts"][0]["text"])) {
     $mensaje_modelo = $data["candidates"][0]["content"]["parts"][0]["text"];
-    error_log("finishReason: " . ($data["candidates"][0]["finishReason"] ?? "n/a"));
 } else {
     $api_error = $data["error"]["message"] ?? "Error desconocido (HTTP $httpCode)";
     error_log("Gemini Error: " . $response);
-    echo json_encode(["reply" => "¡Pardiez! Un encantador ha interferido: ($api_error)"]);
+
+    $busy = in_array($httpCode, [429, 503]);
+    $msg = $busy
+        ? "¡Pardiez! Mi caballo anda cansado de tanto trote. Intentad de nuevo en un minuto."
+        : "¡Pardiez! Un encantador ha interferido: ($api_error)";
+
+    echo json_encode(["reply" => $msg], JSON_UNESCAPED_UNICODE);
     exit;
 }
 

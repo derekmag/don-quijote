@@ -281,27 +281,45 @@
       const input = document.getElementById('inputPalabra');
       const resultado = document.getElementById('resultadoSignificado');
 
-      if(abrir && modal) {
-          abrir.onclick = (e) => { 
-              e.preventDefault(); 
-              modal.style.display = 'flex'; 
-          };
-          cerrar.onclick = () => modal.style.display = 'none';
-          
-          buscar.onclick = async () => {
-              const palabra = input.value.trim().toLowerCase();
-              if(!palabra) return;
-              
-              resultado.innerText = "Buscando término...";
-              try {
-                  const res = await fetch(`glosario_api.php?palabra=${encodeURIComponent(palabra)}`);
-                  const data = await res.json();
-                  resultado.innerText = data.significado || "No se encontró el significado.";
-              } catch(e) {
-                  resultado.innerText = "Error al consultar el glosario.";
-              }
-          };
-      }
+      if (abrir && modal) {
+    abrir.onclick = (e) => {
+        e.preventDefault();
+        modal.style.display = 'flex';
+        input.focus();
+    };
+    cerrar.onclick = () => modal.style.display = 'none';
+
+    buscar.onclick = async () => {
+        const palabra = input.value.trim().toLowerCase();
+        if (!palabra) return;
+
+        resultado.innerText = "Buscando término...";
+        try {
+            const res = await fetch(`glosario_api.php?palabra=${encodeURIComponent(palabra)}`);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            resultado.innerText = data.significado || "No se encontró el significado.";
+        } catch (e) {
+            console.error("Error glosario:", e);
+            resultado.innerText = "Error al consultar el glosario.";
+        }
+    };
+
+    // Enter busca
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') buscar.click();
+    });
+
+    // Esc cierra
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') modal.style.display = 'none';
+    });
+
+    // Clic fuera de la caja cierra
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+}
     </script>
 
     <!-- Scripts con soporte de módulos ES6 -->
