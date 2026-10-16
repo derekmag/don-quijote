@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="assets/styles/don.css" />
     <link rel="stylesheet" href="assets/styles/responsive.css" />
     <link rel="stylesheet" href="assets/styles/header.css" />
-    <link rel="stylesheet" href="assets/styles/mini-player.css">
+    <link rel="stylesheet" href="assets/styles/mini-player.css" />
   </head>
   <body>
     <!-- === Modal de BIENVENIDA (A11y optimizado) ==== -->
@@ -88,8 +88,8 @@
       </div>
       <nav role="navigation" aria-label="Menú principal">
         <ul>
-          <!-- Botón de Glosario añadido al menú -->
-          <li><a href="#" id="btnGlosario" class="lang-switch-link" style="color: #60a5fa; font-weight: bold; cursor: pointer;">📖 Glosario</a></li>
+          <li><a href="#" id="btnGlosario" class="lang-switch-link" style="cursor: pointer;">📖 Glosario</a></li>
+          <li><a href="#" id="btnRetos" class="lang-switch-link" style="cursor: pointer;">🏆 Retos</a></li>
           <li><a href="english.html" class="lang-switch-link">English Version</a></li>
         </ul>
       </nav>
@@ -243,7 +243,7 @@
       </div>
     </div>
 
-    <!-- === VENTANA MODAL DEL GLOSARIO Y SU SCRIPT === -->
+    <!-- === VENTANA MODAL DEL GLOSARIO === -->
     <div id="modalGlosario" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 99999; justify-content: center; align-items: center;">
         <div style="background: #1e1b4b; color: white; padding: 25px; border-radius: 12px; width: 380px; max-width: 90%; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left; border: 1px solid #4f46e5;">
             <h3 style="margin-top: 0; color: #818cf8;">📖 Glosario Quijotesco</h3>
@@ -257,12 +257,12 @@
         </div>
     </div>
 
+    <!-- Generación dinámica de los 52 capítulos -->
     <script>
-      // Generación dinámica de los 52 capítulos
       document.addEventListener("DOMContentLoaded", () => {
         const container = document.getElementById("chapter-container");
         if (!container) return;
-        container.innerHTML = ""; // Limpiar por si acaso
+        container.innerHTML = "";
         for (let i = 1; i <= 52; i++) {
           const num = String(i).padStart(2, "0");
           const btn = document.createElement("button");
@@ -273,7 +273,10 @@
           container.appendChild(btn);
         }
       });
-// Lógica del Glosario
+    </script>
+
+    <!-- Lógica del Glosario -->
+    <script>
       const modal = document.getElementById('modalGlosario');
       const abrir = document.getElementById('btnGlosario');
       const cerrar = document.getElementById('btnCerrarModal');
@@ -282,44 +285,44 @@
       const resultado = document.getElementById('resultadoSignificado');
 
       if (abrir && modal) {
-    abrir.onclick = (e) => {
-        e.preventDefault();
-        modal.style.display = 'flex';
-        input.focus();
-    };
-    cerrar.onclick = () => modal.style.display = 'none';
+          abrir.onclick = (e) => {
+              e.preventDefault();
+              modal.style.display = 'flex';
+              input.focus();
+          };
+          cerrar.onclick = () => modal.style.display = 'none';
 
-    buscar.onclick = async () => {
-        const palabra = input.value.trim().toLowerCase();
-        if (!palabra) return;
+          buscar.onclick = async () => {
+              const palabra = input.value.trim().toLowerCase();
+              if (!palabra) return;
 
-        resultado.innerText = "Buscando término...";
-        try {
-            const res = await fetch(`glosario_api.php?palabra=${encodeURIComponent(palabra)}`);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-            resultado.innerText = data.significado || "No se encontró el significado.";
-        } catch (e) {
-            console.error("Error glosario:", e);
-            resultado.innerText = "Error al consultar el glosario.";
-        }
-    };
+              resultado.innerText = "Buscando término...";
+              try {
+                  const res = await fetch(`glosario_api.php?palabra=${encodeURIComponent(palabra)}`);
+                  if (!res.ok) throw new Error('HTTP ' + res.status);
+                  const data = await res.json();
+                  resultado.innerText = data.significado || "No se encontró el significado.";
+              } catch (e) {
+                  console.error("Error glosario:", e);
+                  resultado.innerText = "Error al consultar el glosario.";
+              }
+          };
 
-    // Enter busca
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') buscar.click();
-    });
+          // Enter busca
+          input.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') buscar.click();
+          });
 
-    // Esc cierra
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') modal.style.display = 'none';
-    });
+          // Esc cierra
+          document.addEventListener('keydown', (e) => {
+              if (e.key === 'Escape') modal.style.display = 'none';
+          });
 
-    // Clic fuera de la caja cierra
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
-    });
-}
+          // Clic fuera de la caja cierra
+          modal.addEventListener('click', (e) => {
+              if (e.target === modal) modal.style.display = 'none';
+          });
+      }
     </script>
 
     <!-- Scripts con soporte de módulos ES6 -->
@@ -334,5 +337,8 @@
     <script src="assets/scripts/chatToggle.js"></script>
     <script src="assets/scripts/chaptersToggle.js"></script>
     <script src="assets/scripts/mini-player.js"></script>
+
+    <!-- Sistema de retos y recompensas -->
+    <script src="assets/scripts/recompensas.js"></script>
   </body>
 </html>

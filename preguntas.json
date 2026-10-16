@@ -1,0 +1,50 @@
+[
+  {
+    "pregunta": "¿Cómo se llama el caballo de Don Quijote?",
+    "opciones": ["Babieca", "Rocinante", "Platero", "Bucéfalo"],
+    "correcta": 1,
+    "explicacion": "Rocinante es un rocín flaco, pero Don Quijote lo considera el mejor caballo del mundo."
+  },
+  {
+    "pregunta": "¿Contra qué lucha Don Quijote creyendo que son gigantes?",
+    "opciones": ["Torres", "Molinos de viento", "Árboles", "Castillos"],
+    "correcta": 1,
+    "explicacion": "Los molinos de viento son una de las escenas más famosas del libro."
+  },
+  {
+    "pregunta": "¿Quién es la dama de la que Don Quijote está enamorado?",
+    "opciones": ["Dulcinea del Toboso", "Marcela", "Dorotea", "Altisidora"],
+    "correcta": 0,
+    "explicacion": "Dulcinea es en realidad una campesina, Aldonza Lorenzo, a la que él idealiza."
+  },
+  {
+    "pregunta": "¿Cómo se llama el fiel escudero de Don Quijote?",
+    "opciones": ["Sancho Panza", "Cardenio", "Ginés de Pasamonte", "Sansón Carrasco"],
+    "correcta": 0,
+    "explicacion": "Sancho Panza es un labrador sencillo que acompaña a Don Quijote por promesa de una ínsula."
+  },
+  {
+    "pregunta": "¿Quién escribió Don Quijote de la Mancha?",
+    "opciones": ["Lope de Vega", "Quevedo", "Miguel de Cervantes", "Calderón de la Barca"],
+    "correcta": 2,
+    "explicacion": "Cervantes publicó la primera parte en 1605 y la segunda en 1615."
+  },
+  {
+    "pregunta": "¿Qué significa «adarga»?",
+    "opciones": ["Una espada", "Un escudo de cuero", "Un casco", "Una lanza"],
+    "correcta": 1,
+    "explicacion": "La adarga era un escudo ovalado o en forma de corazón, de cuero."
+  },
+  {
+    "pregunta": "¿Qué significa «entuerto»?",
+    "opciones": ["Un agravio o injusticia", "Un banquete", "Un viaje", "Una armadura"],
+    "correcta": 0,
+    "explicacion": "Don Quijote se dedica a «deshacer entuertos», es decir, a reparar injusticias."
+  },
+  {
+    "pregunta": "¿Cuál es el verdadero nombre de Don Quijote?",
+    "opciones": ["Alonso Quijano", "Pedro Alonso", "Diego Quijada", "Juan Quijote"],
+    "correcta": 0,
+    "explicacion": "Alonso Quijano es un hidalgo manchego que enloquece de leer libros de caballerías."
+  }
+]
