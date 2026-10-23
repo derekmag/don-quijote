@@ -1,50 +1,332 @@
 [
   {
     "pregunta": "¿Cómo se llama el caballo de Don Quijote?",
-    "opciones": ["Babieca", "Rocinante", "Platero", "Bucéfalo"],
+    "opciones": [
+      "Babieca",
+      "Rocinante",
+      "Platero",
+      "Bucéfalo"
+    ],
     "correcta": 1,
     "explicacion": "Rocinante es un rocín flaco, pero Don Quijote lo considera el mejor caballo del mundo."
   },
   {
     "pregunta": "¿Contra qué lucha Don Quijote creyendo que son gigantes?",
-    "opciones": ["Torres", "Molinos de viento", "Árboles", "Castillos"],
+    "opciones": [
+      "Torres",
+      "Molinos de viento",
+      "Árboles",
+      "Castillos"
+    ],
     "correcta": 1,
     "explicacion": "Los molinos de viento son una de las escenas más famosas del libro."
   },
   {
     "pregunta": "¿Quién es la dama de la que Don Quijote está enamorado?",
-    "opciones": ["Dulcinea del Toboso", "Marcela", "Dorotea", "Altisidora"],
+    "opciones": [
+      "Dulcinea del Toboso",
+      "Marcela",
+      "Dorotea",
+      "Altisidora"
+    ],
     "correcta": 0,
     "explicacion": "Dulcinea es en realidad una campesina, Aldonza Lorenzo, a la que él idealiza."
   },
   {
     "pregunta": "¿Cómo se llama el fiel escudero de Don Quijote?",
-    "opciones": ["Sancho Panza", "Cardenio", "Ginés de Pasamonte", "Sansón Carrasco"],
+    "opciones": [
+      "Sancho Panza",
+      "Cardenio",
+      "Ginés de Pasamonte",
+      "Sansón Carrasco"
+    ],
     "correcta": 0,
-    "explicacion": "Sancho Panza es un labrador sencillo que acompaña a Don Quijote por promesa de una ínsula."
+    "explicacion": "Sancho Panza es un labrador sencillo que acompaña a Don Quijote por la promesa de una ínsula."
   },
   {
     "pregunta": "¿Quién escribió Don Quijote de la Mancha?",
-    "opciones": ["Lope de Vega", "Quevedo", "Miguel de Cervantes", "Calderón de la Barca"],
+    "opciones": [
+      "Lope de Vega",
+      "Quevedo",
+      "Miguel de Cervantes",
+      "Calderón de la Barca"
+    ],
     "correcta": 2,
     "explicacion": "Cervantes publicó la primera parte en 1605 y la segunda en 1615."
   },
   {
     "pregunta": "¿Qué significa «adarga»?",
-    "opciones": ["Una espada", "Un escudo de cuero", "Un casco", "Una lanza"],
+    "opciones": [
+      "Una espada",
+      "Un escudo de cuero",
+      "Un casco",
+      "Una lanza"
+    ],
     "correcta": 1,
     "explicacion": "La adarga era un escudo ovalado o en forma de corazón, de cuero."
   },
   {
     "pregunta": "¿Qué significa «entuerto»?",
-    "opciones": ["Un agravio o injusticia", "Un banquete", "Un viaje", "Una armadura"],
+    "opciones": [
+      "Un agravio o injusticia",
+      "Un banquete",
+      "Un viaje",
+      "Una armadura"
+    ],
     "correcta": 0,
     "explicacion": "Don Quijote se dedica a «deshacer entuertos», es decir, a reparar injusticias."
   },
   {
     "pregunta": "¿Cuál es el verdadero nombre de Don Quijote?",
-    "opciones": ["Alonso Quijano", "Pedro Alonso", "Diego Quijada", "Juan Quijote"],
+    "opciones": [
+      "Alonso Quijano",
+      "Pedro Alonso",
+      "Diego Quijada",
+      "Juan Quijote"
+    ],
     "correcta": 0,
     "explicacion": "Alonso Quijano es un hidalgo manchego que enloquece de leer libros de caballerías."
+  },
+  {
+    "pregunta": "¿En qué región de España vive Don Quijote?",
+    "opciones": [
+      "Andalucía",
+      "La Mancha",
+      "Galicia",
+      "Cataluña"
+    ],
+    "correcta": 1,
+    "explicacion": "El libro empieza en «un lugar de la Mancha», una región del centro de España."
+  },
+  {
+    "pregunta": "¿Qué lee sin parar Alonso Quijano hasta perder el juicio?",
+    "opciones": [
+      "Libros de caballerías",
+      "Libros de cocina",
+      "Libros de poesía",
+      "Libros de viajes"
+    ],
+    "correcta": 0,
+    "explicacion": "Las historias de caballeros andantes le llenan la cabeza de aventuras imaginarias."
+  },
+  {
+    "pregunta": "¿Qué le promete Don Quijote a Sancho a cambio de acompañarlo?",
+    "opciones": [
+      "Una fortuna en oro",
+      "Gobernar una ínsula",
+      "Un caballo nuevo",
+      "Un título de duque"
+    ],
+    "correcta": 1,
+    "explicacion": "Sancho sueña con ser gobernador de una ínsula, es decir, de una isla."
+  },
+  {
+    "pregunta": "¿Qué cree Don Quijote que es la venta donde pasa la noche?",
+    "opciones": [
+      "Una iglesia",
+      "Un castillo",
+      "Una cueva",
+      "Un palacio de Dulcinea"
+    ],
+    "correcta": 1,
+    "explicacion": "Su imaginación convierte una simple posada en un castillo, y al ventero en su señor."
+  },
+  {
+    "pregunta": "¿Qué animal monta Sancho Panza?",
+    "opciones": [
+      "Un caballo blanco",
+      "Una mula",
+      "Un asno",
+      "Un buey"
+    ],
+    "correcta": 2,
+    "explicacion": "Sancho va montado en un asno, al que el libro llama el rucio."
+  },
+  {
+    "pregunta": "¿Qué usa Don Quijote como yelmo en una de sus aventuras?",
+    "opciones": [
+      "Una olla",
+      "Una bacía de barbero",
+      "Un sombrero",
+      "Un cubo"
+    ],
+    "correcta": 1,
+    "explicacion": "Don Quijote toma la bacía de un barbero y la llama el yelmo de Mambrino."
+  },
+  {
+    "pregunta": "¿En qué año se publicó la primera parte del Quijote?",
+    "opciones": [
+      "1505",
+      "1605",
+      "1705",
+      "1805"
+    ],
+    "correcta": 1,
+    "explicacion": "La primera parte salió en 1605 y la segunda en 1615."
+  },
+  {
+    "pregunta": "¿Qué significa «rocín»?",
+    "opciones": [
+      "Un caballo de mala traza",
+      "Un perro de caza",
+      "Un tipo de espada",
+      "Un criado"
+    ],
+    "correcta": 0,
+    "explicacion": "Un rocín es un caballo flaco y de poco valor, como el famoso Rocinante."
+  },
+  {
+    "pregunta": "¿Qué significa «hidalgo»?",
+    "opciones": [
+      "Un campesino pobre",
+      "Un noble de rango menor",
+      "Un rey",
+      "Un juglar"
+    ],
+    "correcta": 1,
+    "explicacion": "El hidalgo pertenece a la nobleza, aunque no siempre tiene riquezas."
+  },
+  {
+    "pregunta": "¿Qué es «pardiez»?",
+    "opciones": [
+      "Una comida",
+      "Un juramento o exclamación",
+      "Un arma",
+      "Un pueblo"
+    ],
+    "correcta": 1,
+    "explicacion": "Es una exclamación antigua, abreviación de «por Dios»."
+  },
+  {
+    "pregunta": "¿Qué apodo le pone Sancho a Don Quijote?",
+    "opciones": [
+      "Caballero de la Triste Figura",
+      "Caballero de la Blanca Luna",
+      "Caballero del Cisne",
+      "Caballero Rojo"
+    ],
+    "correcta": 0,
+    "explicacion": "Sancho lo llama así al ver su rostro cansado después de una pelea."
+  },
+  {
+    "pregunta": "¿Cómo se llama la esposa de Sancho Panza?",
+    "opciones": [
+      "Teresa Panza",
+      "Aldonza Lorenzo",
+      "Maritornes",
+      "Dorotea"
+    ],
+    "correcta": 0,
+    "explicacion": "Teresa Panza espera en la aldea mientras Sancho acompaña a su amo."
+  },
+  {
+    "pregunta": "¿Cuántas partes tiene la obra?",
+    "opciones": [
+      "Una",
+      "Dos",
+      "Tres",
+      "Cuatro"
+    ],
+    "correcta": 1,
+    "explicacion": "La primera parte es de 1605 y la segunda, de 1615."
+  },
+  {
+    "pregunta": "¿Qué confunde Don Quijote con un ejército?",
+    "opciones": [
+      "Un rebaño de ovejas",
+      "Una bandada de pájaros",
+      "Una caravana",
+      "Una procesión de monjes"
+    ],
+    "correcta": 0,
+    "explicacion": "Don Quijote ataca un rebaño de ovejas creyendo que son dos ejércitos enemigos."
+  },
+  {
+    "pregunta": "¿Quién vence a Don Quijote en Barcelona?",
+    "opciones": [
+      "Sancho Panza",
+      "El Caballero de la Blanca Luna",
+      "Un gigante",
+      "El barbero"
+    ],
+    "correcta": 1,
+    "explicacion": "Es Sansón Carrasco disfrazado, que lo obliga a volver a su aldea."
+  },
+  {
+    "pregunta": "¿Cuál es el nombre real de Dulcinea del Toboso?",
+    "opciones": [
+      "Aldonza Lorenzo",
+      "Teresa Panza",
+      "Marcela",
+      "Luscinda"
+    ],
+    "correcta": 0,
+    "explicacion": "Don Quijote transforma a una labradora en la dama perfecta."
+  },
+  {
+    "pregunta": "¿Qué significa la palabra «quijotesco»?",
+    "opciones": [
+      "Glotón",
+      "Idealista y poco realista",
+      "Cobarde",
+      "Muy rico"
+    ],
+    "correcta": 1,
+    "explicacion": "Se dice de quien persigue ideales sin fijarse en la realidad, como Don Quijote."
+  },
+  {
+    "pregunta": "¿Qué hacen el cura y el barbero con los libros de Don Quijote?",
+    "opciones": [
+      "Los venden",
+      "Queman muchos de ellos",
+      "Los donan a una escuela",
+      "Los traducen"
+    ],
+    "correcta": 1,
+    "explicacion": "Revisan su biblioteca y queman muchos libros, convencidos de que le han trastornado."
+  },
+  {
+    "pregunta": "¿En qué batalla perdió Cervantes el uso de la mano izquierda?",
+    "opciones": [
+      "Lepanto",
+      "Trafalgar",
+      "Pavía",
+      "Granada"
+    ],
+    "correcta": 0,
+    "explicacion": "Fue en la batalla de Lepanto (1571); por eso lo llamaron el manco de Lepanto."
+  },
+  {
+    "pregunta": "¿Qué es un caballero «andante»?",
+    "opciones": [
+      "El que viaja buscando aventuras",
+      "El que vive en un castillo",
+      "El que cuida caballos",
+      "El que escribe libros"
+    ],
+    "correcta": 0,
+    "explicacion": "Andante significa que anda: el caballero recorre el mundo para ayudar a los demás."
+  },
+  {
+    "pregunta": "¿Cómo termina la vida de Don Quijote?",
+    "opciones": [
+      "Se convierte en rey",
+      "Recupera la cordura y muere como Alonso Quijano",
+      "Se marcha a América",
+      "Gobierna una ínsula"
+    ],
+    "correcta": 1,
+    "explicacion": "Al final renuncia a las novelas de caballerías y muere en su cama."
+  },
+  {
+    "pregunta": "¿Qué significa «fazaña»?",
+    "opciones": [
+      "Una hazaña",
+      "Una fiesta",
+      "Una herida",
+      "Un camino"
+    ],
+    "correcta": 0,
+    "explicacion": "Es una forma antigua de decir hazaña: una acción ilustre o heroica."
   }
 ]
