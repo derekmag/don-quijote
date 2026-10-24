@@ -99,6 +99,7 @@
       </div>
 
       <nav role="navigation" aria-label="Main menu">
+        <li><a href="#" id="btnRetos" class="lang-switch-link" style="cursor: pointer;">🏆 Challenges</a></li>
   <ul>
     <li>
       <a href="#" id="btnGlosario" class="lang-switch-link" style="cursor: pointer;">📖 Glossary</a>
@@ -280,6 +281,7 @@
     </script>
 
     <!-- Scripts con soporte de módulos ES6 -->
+     <script src="assets/scripts/recompensas.js"></script>
     <script src="assets/scripts/icons.js"></script>
     <script src="assets/scripts/layout.js"></script>
     <script src="assets/scripts/ui.js" type="module"></script>
@@ -328,7 +330,7 @@
 
             resultado.innerText = "Buscando término...";
             try {
-                const res = await fetch('glosario_api.php?palabra=' + encodeURIComponent(palabra));
+                const res = await fetch('glosario_api.php?lang=en&palabra=' + encodeURIComponent(palabra));
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 const data = await res.json();
                 resultado.innerText = data.significado || "No se encontró el significado.";

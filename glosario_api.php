@@ -1,29 +1,59 @@
+
 <?php
 header('Content-Type: application/json; charset=utf-8');
-
-// Recibir la palabra por GET o por POST (JSON)
-$palabra = '';
-if (isset($_GET['palabra'])) {
-    $palabra = $_GET['palabra'];
-} else {
-    $input = json_decode(file_get_contents('php://input'), true);
-    if (isset($input['palabra'])) {
-        $palabra = $input['palabra'];
+ 
+/* Quita tildes y pasa a minúsculas para comparar ("rocin" = "rocín") */
+function normalizar($t) {
+    $t = mb_strtolower(trim($t), 'UTF-8');
+    return strtr($t, [
+        'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+        'ü' => 'u', 'ñ' => 'n'
+    ]);
+}
+ 
+$lang = (($_GET['lang'] ?? 'es') === 'en') ? 'en' : 'es';
+$palabra = mb_substr(trim($_GET['palabra'] ?? ''), 0, 50, 'UTF-8');
+ 
+$archivo = __DIR__ . '/glosario.json';
+$glosario = is_file($archivo) ? json_decode(file_get_contents($archivo), true) : null;
+ 
+if (!is_array($glosario)) {
+    echo json_encode(["significado" => $lang === 'en' ? "The glossary is unavailable." : "El glosario no está disponible."], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+ 
+// Índice: palabra normalizada => palabra original
+$indice = [];
+foreach ($glosario as $clave => $defs) {
+    $indice[normalizar($clave)] = $clave;
+}
+ 
+$buscada = normalizar($palabra);
+ 
+if ($buscada !== '' && isset($indice[$buscada])) {
+    $original = $indice[$buscada];
+    echo json_encode(["significado" => $glosario[$original][$lang], "palabra" => $original], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+ 
+// No se encontró: sugerir palabras parecidas
+$sugerencias = [];
+if ($buscada !== '') {
+    $maxDist = strlen($buscada) > 6 ? 3 : 2;
+    foreach ($indice as $norm => $original) {
+        $d = levenshtein($buscada, $norm);
+        if ($d <= $maxDist) $sugerencias[$original] = $d;
     }
+    asort($sugerencias);
+    $sugerencias = array_slice(array_keys($sugerencias), 0, 3);
 }
-$palabra = mb_strtolower(trim($palabra), 'UTF-8');
-
-$glosario = [
-    "pardiez"  => "Juramento frecuente en el habla antigua, abreviación de 'para a Dios'.",
-    "rocín"    => "Caballo de mala traza, burdo y de poco valor, como el famoso Rocinante.",
-    "adarga"   => "Escudo de cuero de forma ovalada o de corazón que usaban los antiguos soldados.",
-    "hidalgo"  => "Persona que por su sangre pertenece a la nobleza privilegiada, aunque no siempre con riquezas.",
-    "entuerto" => "Agravio, daño o injuria que se comete contra alguien.",
-    "fazaña"   => "Acción ilustre, heroica o gran hazaña."
-];
-
-if ($palabra !== '' && array_key_exists($palabra, $glosario)) {
-    echo json_encode(["significado" => $glosario[$palabra]], JSON_UNESCAPED_UNICODE);
+ 
+if ($lang === 'en') {
+    $msg = "Sorry, the term '$palabra' is not in this glossary.";
+    if ($sugerencias) $msg .= " Did you mean: " . implode(', ', $sugerencias) . "?";
 } else {
-    echo json_encode(["significado" => "Lo siento, el término '$palabra' no se encuentra registrado en este glosario."], JSON_UNESCAPED_UNICODE);
+    $msg = "Lo siento, el término '$palabra' no se encuentra registrado en este glosario.";
+    if ($sugerencias) $msg .= " ¿Quisiste decir: " . implode(', ', $sugerencias) . "?";
 }
+ 
+echo json_encode(["significado" => $msg], JSON_UNESCAPED_UNICODE);

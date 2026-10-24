@@ -1,0 +1,134 @@
+[
+  {
+    "pregunta": "Who are the three Baudelaire orphans?",
+    "opciones": [
+      "Violet, Klaus and Sunny",
+      "Violet, Klaus and Esmé",
+      "Isadora, Duncan and Quigley",
+      "Violet, Count Olaf and Sunny"
+    ],
+    "correcta": 0,
+    "explicacion": "Violet is the inventor, Klaus the reader and Sunny the youngest."
+  },
+  {
+    "pregunta": "Who is the villain who wants the Baudelaire fortune?",
+    "opciones": [
+      "Mr. Poe",
+      "Count Olaf",
+      "Uncle Monty",
+      "Aunt Josephine"
+    ],
+    "correcta": 1,
+    "explicacion": "Count Olaf is a greedy actor who disguises himself to steal the fortune."
+  },
+  {
+    "pregunta": "Which phrase does the narrator use to explain a word?",
+    "opciones": [
+      "A word which here means",
+      "A term that always means",
+      "In other words",
+      "The dictionary says"
+    ],
+    "correcta": 0,
+    "explicacion": "Lemony Snicket explains words with 'a word which here means'."
+  },
+  {
+    "pregunta": "What does «inauspicious» mean?",
+    "opciones": [
+      "Unlucky or not promising",
+      "Very expensive",
+      "Quiet",
+      "Brave"
+    ],
+    "correcta": 0,
+    "explicacion": "An inauspicious start is one that suggests things will go badly."
+  },
+  {
+    "pregunta": "What does «melancholy» mean?",
+    "opciones": [
+      "Sad and thoughtful",
+      "Very angry",
+      "Extremely fast",
+      "Brightly colored"
+    ],
+    "correcta": 0,
+    "explicacion": "A melancholy person feels a deep, quiet sadness."
+  },
+  {
+    "pregunta": "What does «treacherous» mean?",
+    "opciones": [
+      "Loyal",
+      "Dangerous or likely to betray",
+      "Friendly",
+      "Ancient"
+    ],
+    "correcta": 1,
+    "explicacion": "A treacherous road is dangerous; a treacherous person cannot be trusted."
+  },
+  {
+    "pregunta": "What is an «orphan»?",
+    "opciones": [
+      "A child whose parents have died",
+      "A kind of villain",
+      "A teacher",
+      "A traveler"
+    ],
+    "correcta": 0,
+    "explicacion": "The Baudelaires become orphans after the fire."
+  },
+  {
+    "pregunta": "What does «guardian» mean?",
+    "opciones": [
+      "Someone responsible for caring for a child",
+      "A type of lock",
+      "A servant",
+      "A sailor"
+    ],
+    "correcta": 0,
+    "explicacion": "After the fire, the orphans are placed with a guardian."
+  },
+  {
+    "pregunta": "What destroys the Baudelaire home at the beginning of the story?",
+    "opciones": [
+      "A flood",
+      "A fire",
+      "An earthquake",
+      "A storm"
+    ],
+    "correcta": 1,
+    "explicacion": "The fire that burns the mansion leaves the children without parents or home."
+  },
+  {
+    "pregunta": "What is Violet best known for?",
+    "opciones": [
+      "Inventing things",
+      "Cooking",
+      "Singing",
+      "Reading maps"
+    ],
+    "correcta": 0,
+    "explicacion": "Violet ties up her hair when she needs to invent a solution."
+  },
+  {
+    "pregunta": "What does Klaus love to do?",
+    "opciones": [
+      "Read",
+      "Fight",
+      "Sleep",
+      "Fish"
+    ],
+    "correcta": 0,
+    "explicacion": "Klaus has read so much that he remembers a great deal of what he reads."
+  },
+  {
+    "pregunta": "What does Sunny love to do?",
+    "opciones": [
+      "Bite things",
+      "Paint",
+      "Dance",
+      "Sing"
+    ],
+    "correcta": 0,
+    "explicacion": "Sunny's sharp teeth are very useful in many of the family's troubles."
+  }
+]
