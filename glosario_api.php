@@ -21,6 +21,12 @@ if (!is_array($glosario)) {
     echo json_encode(["significado" => $lang === 'en' ? "The glossary is unavailable." : "El glosario no está disponible."], JSON_UNESCAPED_UNICODE);
     exit;
 }
+
+// Lista de palabras (para resaltarlas en el texto)
+if (isset($_GET['lista'])) {
+    echo json_encode(array_keys($glosario), JSON_UNESCAPED_UNICODE);
+    exit;
+}
  
 // Índice: palabra normalizada => palabra original
 $indice = [];
