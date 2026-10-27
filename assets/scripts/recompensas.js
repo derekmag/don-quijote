@@ -70,7 +70,7 @@
   modalRetos.style.cssText =
     "display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;justify-content:center;align-items:center;";
   modalRetos.innerHTML = `
-    <div role="dialog" aria-modal="true" style="background:#1e1b4b;color:white;padding:25px;border-radius:12px;width:420px;max-width:92%;max-height:90vh;overflow:auto;border:1px solid #4f46e5;box-shadow:0 4px 15px rgba(0,0,0,.5);">
+    <div role="dialog" aria-modal="true" aria-label="${T.titulo}" style="background:#1e1b4b;color:white;padding:25px;border-radius:12px;width:420px;max-width:92%;max-height:90vh;overflow:auto;border:1px solid #4f46e5;box-shadow:0 4px 15px rgba(0,0,0,.5);">
       <div id="retosContenido"></div>
     </div>`;
   document.body.appendChild(modalRetos);
@@ -78,7 +78,11 @@
  
   const btn = (txt, id, color = "#2563eb") =>
     `<button id="${id}" style="background:${color};color:white;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;font-weight:bold;">${txt}</button>`;
-  const cerrar = () => { modalRetos.style.display = "none"; };
+  const cerrar = () => {
+  modalRetos.style.display = "none";
+  const b = document.getElementById("btnRetos");
+  if (b) b.focus();
+};
  
   /* ---------- Pantallas ---------- */
   let preguntas = [], ronda = [], idx = 0, aciertosRonda = 0, rachaRonda = 0;
@@ -102,7 +106,8 @@
         ${btn(T.jugar, "retosJugar")}
       </div>`;
     cont.querySelector("#retosCerrar").onclick = cerrar;
-    cont.querySelector("#retosJugar").onclick = iniciarRonda;
+cont.querySelector("#retosJugar").onclick = iniciarRonda;
+cont.querySelector("#retosJugar").focus();
   }
  
   function iniciarRonda() {

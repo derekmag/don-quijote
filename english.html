@@ -281,7 +281,7 @@
     </script>
 
     <!-- Scripts con soporte de módulos ES6 -->
-     <script src="assets/scripts/recompensas.js"></script>
+    <script src="assets/scripts/recompensas.js"></script>
     <script src="assets/scripts/icons.js"></script>
     <script src="assets/scripts/layout.js"></script>
     <script src="assets/scripts/ui.js" type="module"></script>
@@ -295,18 +295,18 @@
     <script src="assets/scripts/mini-player.js"></script>
 
     <!-- Modal del Glosario -->
-<div id="modalGlosario" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 99999; justify-content: center; align-items: center;">
-    <div style="background: #1e1b4b; color: white; padding: 25px; border-radius: 12px; width: 380px; max-width: 90%; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left; border: 1px solid #4f46e5;">
-        <h3 style="margin-top: 0; color: #818cf8;">📖 Glosario Quijotesco</h3>
-        <p style="font-size: 13px; color: #9ca3af;">Introduce un término arcaico para conocer su significado:</p>
-        <input type="text" id="inputPalabra" placeholder="Ej. pardiez, rocín, adarga..." style="width: 100%; padding: 10px; margin-bottom: 15px; background: #312e81; border: 1px solid #4f46e5; color: white; border-radius: 6px; box-sizing: border-box;">
-        <div id="resultadoSignificado" style="font-size: 13px; color: #e2e8f0; margin-bottom: 15px; min-height: 50px; background: #312e81; padding: 10px; border-radius: 6px; border: 1px solid #3730a3;">Escribe una palabra y presiona buscar...</div>
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-            <button id="btnCerrarModal" style="background: #374151; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer;">Cerrar</button>
-            <button id="btnBuscarPalabra" style="background: #2563eb; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Buscar</button>
+    <div id="modalGlosario" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 99999; justify-content: center; align-items: center;">
+        <div style="background: #1e1b4b; color: white; padding: 25px; border-radius: 12px; width: 380px; max-width: 90%; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left; border: 1px solid #4f46e5;">
+            <h3 style="margin-top: 0; color: #818cf8;">📖 Glosario Quijotesco</h3>
+            <p style="font-size: 13px; color: #9ca3af;">Introduce un término arcaico:</p>
+            <input type="text" id="inputPalabra" placeholder="Ej. pardiez, rocín, adarga..." style="width: 100%; padding: 10px; margin-bottom: 15px; background: #312e81; border: 1px solid #4f46e5; color: white; border-radius: 6px; box-sizing: border-box;">
+            <div id="resultadoSignificado" style="font-size: 13px; color: #e2e8f0; margin-bottom: 15px; min-height: 50px; background: #312e81; padding: 10px; border-radius: 6px; border: 1px solid #3730a3;">Escribe una palabra y presiona buscar...</div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="btnCerrarModal" style="background: #374151; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer;">Cerrar</button>
+                <button id="btnBuscarPalabra" style="background: #2563eb; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Buscar</button>
+            </div>
         </div>
     </div>
-</div>
     
 
     <script>
@@ -317,31 +317,48 @@
     const input = document.getElementById('inputPalabra');
     const resultado = document.getElementById('resultadoSignificado');
 
+    function cerrarModal() {
+        modal.style.display = 'none';
+        abrir.focus();
+    }
+
     if (abrir && modal) {
         abrir.onclick = (e) => {
             e.preventDefault();
             modal.style.display = 'flex';
+            input.focus();
         };
-        cerrar.onclick = () => modal.style.display = 'none';
+        cerrar.onclick = () => cerrarModal();
 
         buscar.onclick = async () => {
             const palabra = input.value.trim();
             if (!palabra) return;
 
-            resultado.innerText = "Buscando término...";
+            resultado.innerText = "Searching...";
             try {
                 const res = await fetch('glosario_api.php?lang=en&palabra=' + encodeURIComponent(palabra));
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 const data = await res.json();
-                resultado.innerText = data.significado || "No se encontró el significado.";
+                resultado.innerText = data.significado || "Meaning not found.";
             } catch (e) {
                 console.error(e);
-                resultado.innerText = "Error al consultar el glosario.";
+                resultado.innerText = "Error querying the glossary.";
             }
         };
 
+        // Enter busca
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') buscar.click();
+        });
+
+        // Esc cierra
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') cerrarModal();
+        });
+
+        // Clic fuera de la caja cierra
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) cerrarModal();
         });
     }
 </script>
