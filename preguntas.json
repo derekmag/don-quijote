@@ -8,7 +8,8 @@
       "Bucéfalo"
     ],
     "correcta": 1,
-    "explicacion": "Rocinante es un rocín flaco, pero Don Quijote lo considera el mejor caballo del mundo."
+    "explicacion": "Rocinante es un rocín flaco, pero Don Quijote lo considera el mejor caballo del mundo.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Contra qué lucha Don Quijote creyendo que son gigantes?",
@@ -19,7 +20,8 @@
       "Castillos"
     ],
     "correcta": 1,
-    "explicacion": "Los molinos de viento son una de las escenas más famosas del libro."
+    "explicacion": "Los molinos de viento son una de las escenas más famosas del libro.",
+    "capitulo": 8
   },
   {
     "pregunta": "¿Quién es la dama de la que Don Quijote está enamorado?",
@@ -30,7 +32,8 @@
       "Altisidora"
     ],
     "correcta": 0,
-    "explicacion": "Dulcinea es en realidad una campesina, Aldonza Lorenzo, a la que él idealiza."
+    "explicacion": "Dulcinea es en realidad una campesina, Aldonza Lorenzo, a la que él idealiza.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Cómo se llama el fiel escudero de Don Quijote?",
@@ -41,7 +44,8 @@
       "Sansón Carrasco"
     ],
     "correcta": 0,
-    "explicacion": "Sancho Panza es un labrador sencillo que acompaña a Don Quijote por la promesa de una ínsula."
+    "explicacion": "Sancho Panza es un labrador sencillo que acompaña a Don Quijote por la promesa de una ínsula.",
+    "capitulo": 7
   },
   {
     "pregunta": "¿Quién escribió Don Quijote de la Mancha?",
@@ -63,7 +67,8 @@
       "Una lanza"
     ],
     "correcta": 1,
-    "explicacion": "La adarga era un escudo ovalado o en forma de corazón, de cuero."
+    "explicacion": "La adarga era un escudo ovalado o en forma de corazón, de cuero.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Qué significa «entuerto»?",
@@ -85,7 +90,8 @@
       "Juan Quijote"
     ],
     "correcta": 0,
-    "explicacion": "Alonso Quijano es un hidalgo manchego que enloquece de leer libros de caballerías."
+    "explicacion": "Alonso Quijano es un hidalgo manchego que enloquece de leer libros de caballerías.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿En qué región de España vive Don Quijote?",
@@ -96,7 +102,8 @@
       "Cataluña"
     ],
     "correcta": 1,
-    "explicacion": "El libro empieza en «un lugar de la Mancha», una región del centro de España."
+    "explicacion": "El libro empieza en «un lugar de la Mancha», una región del centro de España.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Qué lee sin parar Alonso Quijano hasta perder el juicio?",
@@ -107,7 +114,8 @@
       "Libros de viajes"
     ],
     "correcta": 0,
-    "explicacion": "Las historias de caballeros andantes le llenan la cabeza de aventuras imaginarias."
+    "explicacion": "Las historias de caballeros andantes le llenan la cabeza de aventuras imaginarias.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Qué le promete Don Quijote a Sancho a cambio de acompañarlo?",
@@ -118,7 +126,8 @@
       "Un título de duque"
     ],
     "correcta": 1,
-    "explicacion": "Sancho sueña con ser gobernador de una ínsula, es decir, de una isla."
+    "explicacion": "Sancho sueña con ser gobernador de una ínsula, es decir, de una isla.",
+    "capitulo": 7
   },
   {
     "pregunta": "¿Qué cree Don Quijote que es la venta donde pasa la noche?",
@@ -129,7 +138,8 @@
       "Un palacio de Dulcinea"
     ],
     "correcta": 1,
-    "explicacion": "Su imaginación convierte una simple posada en un castillo, y al ventero en su señor."
+    "explicacion": "Su imaginación convierte una simple posada en un castillo, y al ventero en su señor.",
+    "capitulo": 2
   },
   {
     "pregunta": "¿Qué animal monta Sancho Panza?",
@@ -140,7 +150,8 @@
       "Un buey"
     ],
     "correcta": 2,
-    "explicacion": "Sancho va montado en un asno, al que el libro llama el rucio."
+    "explicacion": "Sancho va montado en un asno, al que el libro llama el rucio.",
+    "capitulo": 7
   },
   {
     "pregunta": "¿Qué usa Don Quijote como yelmo en una de sus aventuras?",
@@ -151,7 +162,8 @@
       "Un cubo"
     ],
     "correcta": 1,
-    "explicacion": "Don Quijote toma la bacía de un barbero y la llama el yelmo de Mambrino."
+    "explicacion": "Don Quijote toma la bacía de un barbero y la llama el yelmo de Mambrino.",
+    "capitulo": 21
   },
   {
     "pregunta": "¿En qué año se publicó la primera parte del Quijote?",
@@ -173,7 +185,8 @@
       "Un criado"
     ],
     "correcta": 0,
-    "explicacion": "Un rocín es un caballo flaco y de poco valor, como el famoso Rocinante."
+    "explicacion": "Un rocín es un caballo flaco y de poco valor, como el famoso Rocinante.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Qué significa «hidalgo»?",
@@ -184,7 +197,8 @@
       "Un juglar"
     ],
     "correcta": 1,
-    "explicacion": "El hidalgo pertenece a la nobleza, aunque no siempre tiene riquezas."
+    "explicacion": "El hidalgo pertenece a la nobleza, aunque no siempre tiene riquezas.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Qué es «pardiez»?",
@@ -206,7 +220,8 @@
       "Caballero Rojo"
     ],
     "correcta": 0,
-    "explicacion": "Sancho lo llama así al ver su rostro cansado después de una pelea."
+    "explicacion": "Sancho lo llama así al ver su rostro cansado después de una pelea.",
+    "capitulo": 19
   },
   {
     "pregunta": "¿Cómo se llama la esposa de Sancho Panza?",
@@ -217,7 +232,8 @@
       "Dorotea"
     ],
     "correcta": 0,
-    "explicacion": "Teresa Panza espera en la aldea mientras Sancho acompaña a su amo."
+    "explicacion": "Teresa Panza espera en la aldea mientras Sancho acompaña a su amo.",
+    "parte": 2
   },
   {
     "pregunta": "¿Cuántas partes tiene la obra?",
@@ -239,7 +255,8 @@
       "Una procesión de monjes"
     ],
     "correcta": 0,
-    "explicacion": "Don Quijote ataca un rebaño de ovejas creyendo que son dos ejércitos enemigos."
+    "explicacion": "Don Quijote ataca un rebaño de ovejas creyendo que son dos ejércitos enemigos.",
+    "capitulo": 18
   },
   {
     "pregunta": "¿Quién vence a Don Quijote en Barcelona?",
@@ -250,7 +267,8 @@
       "El barbero"
     ],
     "correcta": 1,
-    "explicacion": "Es Sansón Carrasco disfrazado, que lo obliga a volver a su aldea."
+    "explicacion": "Es Sansón Carrasco disfrazado, que lo obliga a volver a su aldea.",
+    "parte": 2
   },
   {
     "pregunta": "¿Cuál es el nombre real de Dulcinea del Toboso?",
@@ -261,7 +279,8 @@
       "Luscinda"
     ],
     "correcta": 0,
-    "explicacion": "Don Quijote transforma a una labradora en la dama perfecta."
+    "explicacion": "Don Quijote transforma a una labradora en la dama perfecta.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Qué significa la palabra «quijotesco»?",
@@ -283,7 +302,8 @@
       "Los traducen"
     ],
     "correcta": 1,
-    "explicacion": "Revisan su biblioteca y queman muchos libros, convencidos de que le han trastornado."
+    "explicacion": "Revisan su biblioteca y queman muchos libros, convencidos de que le han trastornado.",
+    "capitulo": 6
   },
   {
     "pregunta": "¿En qué batalla perdió Cervantes el uso de la mano izquierda?",
@@ -305,7 +325,8 @@
       "El que escribe libros"
     ],
     "correcta": 0,
-    "explicacion": "Andante significa que anda: el caballero recorre el mundo para ayudar a los demás."
+    "explicacion": "Andante significa que anda: el caballero recorre el mundo para ayudar a los demás.",
+    "capitulo": 1
   },
   {
     "pregunta": "¿Cómo termina la vida de Don Quijote?",
@@ -316,7 +337,8 @@
       "Gobierna una ínsula"
     ],
     "correcta": 1,
-    "explicacion": "Al final renuncia a las novelas de caballerías y muere en su cama."
+    "explicacion": "Al final renuncia a las novelas de caballerías y muere en su cama.",
+    "parte": 2
   },
   {
     "pregunta": "¿Qué significa «fazaña»?",

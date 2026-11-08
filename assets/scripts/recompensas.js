@@ -12,6 +12,7 @@
         faltan: (n, s) => `${n} points to reach ${s}.`,
         maximo: "Maximum level!",
         cerrar: "Close", jugar: "Play round", salir: "Exit", otra: "Another round",
+        retoCap: (n) => `Chapter ${n} challenge`,
         pregunta: (i, t) => `Question ${i} of ${t}`,
         siguiente: "Next", resultado: "See result",
         ok: "✅ Correct! +10 points.", mal: "❌ Not quite.",
@@ -28,6 +29,7 @@
         faltan: (n, s) => `Te faltan ${n} puntos para ${s}.`,
         maximo: "¡Nivel máximo!",
         cerrar: "Cerrar", jugar: "Jugar ronda", salir: "Salir", otra: "Otra ronda",
+        retoCap: (n) => `Reto del capítulo ${n}`,
         pregunta: (i, t) => `Pregunta ${i} de ${t}`,
         siguiente: "Siguiente", resultado: "Ver resultado",
         ok: "✅ ¡Correcto! +10 puntos.", mal: "❌ No era esa.",
@@ -65,6 +67,15 @@
     return { actual, siguiente };
   }
  
+  /* ---------- Capítulo que se está escuchando ---------- */
+  const audio = document.getElementById("audio-quijote");
+ 
+  // sync.js guarda en audio.dataset.capitulo algo como "./lyrics/capitulos/chapter_08_adjusted.json"
+  function capituloActual() {
+    const m = audio && audio.dataset.capitulo ? audio.dataset.capitulo.match(/chapter_(\d+)/) : null;
+    return m ? Number(m[1]) : null;
+  }
+ 
   /* ---------- Ventana ---------- */
   const modalRetos = document.createElement("div");
   modalRetos.style.cssText =
@@ -78,15 +89,29 @@
  
   const btn = (txt, id, color = "#2563eb") =>
     `<button id="${id}" style="background:${color};color:white;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;font-weight:bold;">${txt}</button>`;
+ 
   const cerrar = () => {
-  modalRetos.style.display = "none";
-  const b = document.getElementById("btnRetos");
-  if (b) b.focus();
-};
+    modalRetos.style.display = "none";
+    const b = document.getElementById("btnRetos");
+    if (b) b.focus();
+  };
+ 
+  /* ---------- Armado de la ronda ---------- */
+  let preguntas = [], ronda = [], idx = 0, aciertosRonda = 0, rachaRonda = 0;
+  let capituloRonda = null; // null = ronda general
+ 
+  const mezclar = (a) => [...a].sort(() => Math.random() - 0.5);
+ 
+  function armarRonda(cap) {
+    if (cap == null) return mezclar(preguntas).slice(0, PREGUNTAS_POR_RONDA);
+    // 1) preguntas de este capítulo, 2) de capítulos ya escuchados, 3) generales (sin adelantar la segunda parte)
+    const propias = preguntas.filter((p) => p.capitulo === cap);
+    const previas = preguntas.filter((p) => typeof p.capitulo === "number" && p.capitulo < cap);
+    const generales = preguntas.filter((p) => p.capitulo == null && p.parte !== 2);
+    return [...mezclar(propias), ...mezclar(previas), ...mezclar(generales)].slice(0, PREGUNTAS_POR_RONDA);
+  }
  
   /* ---------- Pantallas ---------- */
-  let preguntas = [], ronda = [], idx = 0, aciertosRonda = 0, rachaRonda = 0;
- 
   function pantallaInicio() {
     const s = cargar();
     const { actual, siguiente } = nivelDe(s.puntos);
@@ -95,31 +120,36 @@
       const tiene = s.insignias.includes(i.id);
       return `<span title="${i.nombre}" style="font-size:26px;opacity:${tiene ? 1 : 0.25};">${i.icono}</span>`;
     }).join(" ");
+    const cap = capituloActual();
  
     cont.innerHTML = `
       <h3 style="margin-top:0;color:#818cf8;">${T.titulo}</h3>
       <p style="margin:6px 0;">${T.nivel}: <strong>${actual.nombre}</strong> · ${T.puntos}: <strong>${s.puntos}</strong></p>
       <p style="font-size:13px;color:#9ca3af;margin:4px 0 12px;">${faltan}</p>
       <div style="margin-bottom:15px;">${insignias}</div>
-      <div style="display:flex;justify-content:flex-end;gap:10px;">
+      <div style="display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;">
         ${btn(T.cerrar, "retosCerrar", "#374151")}
+        ${cap ? btn(T.retoCap(cap), "retosCap", "#7c3aed") : ""}
         ${btn(T.jugar, "retosJugar")}
       </div>`;
     cont.querySelector("#retosCerrar").onclick = cerrar;
-cont.querySelector("#retosJugar").onclick = iniciarRonda;
-cont.querySelector("#retosJugar").focus();
+    cont.querySelector("#retosJugar").onclick = () => iniciarRonda(null);
+    if (cap) cont.querySelector("#retosCap").onclick = () => iniciarRonda(cap);
+    cont.querySelector("#retosJugar").focus();
   }
  
-  function iniciarRonda() {
-    ronda = [...preguntas].sort(() => Math.random() - 0.5).slice(0, PREGUNTAS_POR_RONDA);
+  function iniciarRonda(cap) {
+    capituloRonda = cap;
+    ronda = armarRonda(cap);
     idx = 0; aciertosRonda = 0; rachaRonda = 0;
     mostrarPregunta();
   }
  
   function mostrarPregunta() {
     const p = ronda[idx];
+    const etiqueta = T.pregunta(idx + 1, ronda.length) + (capituloRonda ? ` · ${T.retoCap(capituloRonda)}` : "");
     cont.innerHTML = `
-      <p style="font-size:12px;color:#9ca3af;margin:0;">${T.pregunta(idx + 1, ronda.length)}</p>
+      <p style="font-size:12px;color:#9ca3af;margin:0;">${etiqueta}</p>
       <h3 style="margin:6px 0 14px;color:#818cf8;">${p.pregunta}</h3>
       <div id="retosOpciones" style="display:flex;flex-direction:column;gap:8px;">
         ${p.opciones.map((o, i) =>
@@ -188,30 +218,69 @@ cont.querySelector("#retosJugar").focus();
         ${btn(T.otra, "retosOtra")}
       </div>`;
     cont.querySelector("#retosSalir").onclick = cerrar;
-    cont.querySelector("#retosOtra").onclick = iniciarRonda;
+    cont.querySelector("#retosOtra").onclick = () => iniciarRonda(capituloRonda);
+  }
+ 
+  /* ---------- Carga de preguntas ---------- */
+  async function asegurarPreguntas() {
+    if (preguntas.length) return true;
+    cont.innerHTML = `<p>${T.cargando}</p>`;
+    try {
+      const res = await fetch(FILE);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      preguntas = await res.json();
+      return true;
+    } catch (err) {
+      console.error("Error cargando preguntas:", err);
+      cont.innerHTML = `<p>${T.errorCarga}</p>`;
+      return false;
+    }
+  }
+ 
+  async function abrir(e) {
+    if (e) e.preventDefault();
+    modalRetos.style.display = "flex";
+    if (await asegurarPreguntas()) pantallaInicio();
+  }
+ 
+  /* ---------- Aviso al terminar el capítulo ---------- */
+  const aviso = document.createElement("button");
+  aviso.type = "button";
+  aviso.style.cssText =
+    "display:none;position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:99997;" +
+    "background:#7c3aed;color:white;border:none;padding:12px 18px;border-radius:999px;font-weight:bold;" +
+    "cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.5);";
+  document.body.appendChild(aviso);
+  let temporizadorAviso = null;
+ 
+  function ocultarAviso() {
+    aviso.style.display = "none";
+    clearTimeout(temporizadorAviso);
+  }
+ 
+  aviso.onclick = async () => {
+    const cap = capituloActual();
+    ocultarAviso();
+    modalRetos.style.display = "flex";
+    if (await asegurarPreguntas()) iniciarRonda(cap);
+  };
+ 
+  if (audio) {
+    audio.addEventListener("ended", () => {
+      const cap = capituloActual();
+      if (!cap) return;
+      aviso.textContent = `🏆 ${T.retoCap(cap)}`;
+      aviso.style.display = "block";
+      clearTimeout(temporizadorAviso);
+      temporizadorAviso = setTimeout(ocultarAviso, 30000); // se oculta solo a los 30 s
+    });
+    audio.addEventListener("play", ocultarAviso);
   }
  
   /* ---------- Arranque ---------- */
-  async function abrir(e) {
-    e.preventDefault();
-    modalRetos.style.display = "flex";
-    if (!preguntas.length) {
-      cont.innerHTML = `<p>${T.cargando}</p>`;
-      try {
-        const res = await fetch(FILE);
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        preguntas = await res.json();
-      } catch (err) {
-        console.error("Error cargando preguntas:", err);
-        cont.innerHTML = `<p>${T.errorCarga}</p>`;
-        return;
-      }
-    }
-    pantallaInicio();
-  }
- 
   const btnRetos = document.getElementById("btnRetos");
   if (btnRetos) btnRetos.addEventListener("click", abrir);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); });
   modalRetos.addEventListener("click", (e) => { if (e.target === modalRetos) cerrar(); });
 })();
+ 
