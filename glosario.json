@@ -1,6 +1,4 @@
 {
-    "fementido": {"es": "Falso, engañoso o sin fe.", "en": "False, deceitful or unfaithful."},
-    
   "pardiez": {
     "es": "Juramento frecuente en el habla antigua, abreviación de 'para a Dios'.",
     "en": "A common oath in old Spanish, short for 'por Dios' (by God)."
@@ -80,6 +78,85 @@
   "follón": {
     "es": "Persona vil, ruin o cobarde.",
     "en": "A base, wretched or cowardly person."
+  },
+  "yantar": {
+    "es": "Comida. En el habla antigua, también significa comer.",
+    "en": "Food or a meal. In old speech, it also means to eat."
+  },
+  "bellaco": {
+    "es": "Malo, ruin; también astuto y pícaro.",
+    "en": "Wicked or base; also sly and roguish."
+  },
+  "bergante": {
+    "es": "Pícaro, sinvergüenza.",
+    "en": "A rogue or scoundrel."
+  },
+  "malandrín": {
+    "es": "Persona maligna y perversa.",
+    "en": "A wicked person; a scoundrel."
+  },
+  "cuitado": {
+    "es": "Afligido, desventurado.",
+    "en": "Afflicted or unfortunate; a poor wretch."
+  },
+  "zagal": {
+    "es": "Muchacho o joven pastor.",
+    "en": "A young lad or young shepherd."
+  },
+  "ventero": {
+    "es": "Dueño o encargado de una venta, es decir, de una posada.",
+    "en": "The owner or keeper of a venta, an inn."
+  },
+  "rodela": {
+    "es": "Escudo redondo y delgado que cubría el pecho de quien peleaba con espada.",
+    "en": "A thin round shield that covered the chest of a swordsman."
+  },
+  "alforjas": {
+    "es": "Bolsas unidas que se llevan al hombro o sobre la montura para cargar provisiones.",
+    "en": "Paired bags carried over the shoulder or on a saddle for provisions."
+  },
+  "bacía": {
+    "es": "Vasija que usaban los barberos para remojar la barba. Don Quijote la toma por el yelmo de Mambrino.",
+    "en": "A bowl barbers used to soak beards. Don Quixote mistakes it for Mambrino's helmet."
+  },
+  "viandas": {
+    "es": "Alimentos o comida.",
+    "en": "Food or provisions."
+  },
+  "ínclito": {
+    "es": "Ilustre, famoso y digno de elogio.",
+    "en": "Illustrious and famous."
+  },
+  "ahíto": {
+    "es": "Harto de comida; con el estómago muy lleno.",
+    "en": "Stuffed; full from eating."
+  },
+  "mohíno": {
+    "es": "Triste, melancólico o enfadado.",
+    "en": "Sad, gloomy or sulky."
+  },
+  "menesteroso": {
+    "es": "Pobre o necesitado.",
+    "en": "Poor or needy."
+  },
+  "desaforado": {
+    "es": "Desmedido, enorme o fuera de toda medida.",
+    "en": "Excessive or huge; beyond all measure."
+  },
+  "fementido": {
+    "es": "Falso, engañoso o sin fe ni palabra.",
+    "en": "False, deceitful, or unfaithful to one's word."
+  },
+  "asaz": {
+    "es": "Bastante o muy. Es una palabra antigua.",
+    "en": "Quite or very. An archaic word."
+  },
+  "mancebo": {
+    "es": "Joven, en especial un varón.",
+    "en": "A young man (archaic)."
+  },
+  "doncella": {
+    "es": "Mujer joven, a menudo soltera o al servicio de una dama.",
+    "en": "A young woman, often unmarried or in the service of a lady."
   }
 }
-

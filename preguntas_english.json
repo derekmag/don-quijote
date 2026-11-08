@@ -130,5 +130,203 @@
     ],
     "correcta": 0,
     "explicacion": "Sunny's sharp teeth are very useful in many of the family's troubles."
+  },
+  {
+    "pregunta": "Who tells the story of the Baudelaire orphans?",
+    "opciones": [
+      "Klaus",
+      "Mr. Poe",
+      "Lemony Snicket",
+      "Count Olaf"
+    ],
+    "correcta": 2,
+    "explicacion": "The narrator is Lemony Snicket, who warns the reader that the story is unhappy."
+  },
+  {
+    "pregunta": "What mark does Count Olaf have on his ankle?",
+    "opciones": [
+      "A scar",
+      "A star",
+      "A snake",
+      "A tattoo of an eye"
+    ],
+    "correcta": 3,
+    "explicacion": "The tattoo of an eye is how the orphans recognize Count Olaf in his disguises."
+  },
+  {
+    "pregunta": "What is the title of the first book in the series?",
+    "opciones": [
+      "The Reptile Room",
+      "The Bad Beginning",
+      "The Miserable Mill",
+      "The Wide Window"
+    ],
+    "correcta": 1,
+    "explicacion": "The Bad Beginning is the book where the orphans meet Count Olaf."
+  },
+  {
+    "pregunta": "Who is Mr. Poe?",
+    "opciones": [
+      "A doctor",
+      "The children's teacher",
+      "A banker who looks after the Baudelaires' affairs",
+      "The villain's assistant"
+    ],
+    "correcta": 2,
+    "explicacion": "Mr. Poe is a banker, but he never believes the children when they warn him about Count Olaf."
+  },
+  {
+    "pregunta": "What does «dreadful» mean?",
+    "opciones": [
+      "Quiet",
+      "Very bad or terrible",
+      "Pleasant",
+      "Tiny"
+    ],
+    "correcta": 1,
+    "explicacion": "A dreadful event causes fear or suffering."
+  },
+  {
+    "pregunta": "What does «ominous» mean?",
+    "opciones": [
+      "Extremely old",
+      "Beautiful",
+      "Giving a sign that something bad will happen",
+      "Very funny"
+    ],
+    "correcta": 2,
+    "explicacion": "Dark clouds can be ominous because they suggest a storm is coming."
+  },
+  {
+    "pregunta": "What is a «villain»?",
+    "opciones": [
+      "A kind helper",
+      "A type of building",
+      "A famous author",
+      "A bad character who harms others"
+    ],
+    "correcta": 3,
+    "explicacion": "Count Olaf is the villain of the series."
+  },
+  {
+    "pregunta": "What does «miserable» mean?",
+    "opciones": [
+      "Very tall",
+      "Very unhappy or uncomfortable",
+      "Very fast",
+      "Very rich"
+    ],
+    "correcta": 1,
+    "explicacion": "The word describes the orphans' situation after the fire."
+  },
+  {
+    "pregunta": "What is a «scheme»?",
+    "opciones": [
+      "A kind of map",
+      "A school subject",
+      "A secret and often dishonest plan",
+      "A musical instrument"
+    ],
+    "correcta": 2,
+    "explicacion": "Count Olaf's scheme is to get the Baudelaire fortune."
+  },
+  {
+    "pregunta": "What does «fortune» mean in this story?",
+    "opciones": [
+      "Good luck at a party",
+      "A city",
+      "A kind of book",
+      "A large amount of money or property"
+    ],
+    "correcta": 3,
+    "explicacion": "The Baudelaire fortune is the money that Count Olaf wants."
+  },
+  {
+    "pregunta": "What is an «inheritance»?",
+    "opciones": [
+      "A type of fire",
+      "Money or property passed on after someone dies",
+      "A school prize",
+      "A kind of invention"
+    ],
+    "correcta": 1,
+    "explicacion": "The orphans' inheritance comes from their parents."
+  },
+  {
+    "pregunta": "What does «suspicious» mean?",
+    "opciones": [
+      "Extremely polite",
+      "Very hungry",
+      "Very sleepy",
+      "Feeling that something is wrong or that someone cannot be trusted"
+    ],
+    "correcta": 3,
+    "explicacion": "The children are suspicious of Count Olaf from the start."
+  },
+  {
+    "pregunta": "What does «gloomy» mean?",
+    "opciones": [
+      "Fast and loud",
+      "Warm and soft",
+      "Dark and sad",
+      "Bright and cheerful"
+    ],
+    "correcta": 2,
+    "explicacion": "A gloomy room feels dark and sad."
+  },
+  {
+    "pregunta": "What does «wretched» mean?",
+    "opciones": [
+      "Full of energy",
+      "Perfectly clean",
+      "In a very unhappy or unfortunate state",
+      "Very expensive"
+    ],
+    "correcta": 2,
+    "explicacion": "A wretched day is a very unfortunate one."
+  },
+  {
+    "pregunta": "What does «cunning» mean?",
+    "opciones": [
+      "Slow and clumsy",
+      "Very brave",
+      "Very friendly",
+      "Clever, often in a dishonest way"
+    ],
+    "correcta": 3,
+    "explicacion": "Count Olaf is cunning: his disguises are clever, but dishonest."
+  },
+  {
+    "pregunta": "What does «peculiar» mean?",
+    "opciones": [
+      "Strange or unusual",
+      "Common",
+      "Delicious",
+      "Silent"
+    ],
+    "correcta": 0,
+    "explicacion": "A peculiar noise is a strange one."
+  },
+  {
+    "pregunta": "What does «sinister» mean?",
+    "opciones": [
+      "Seeming evil or threatening",
+      "Shiny",
+      "Funny",
+      "Sleepy"
+    ],
+    "correcta": 0,
+    "explicacion": "A sinister smile makes you think something bad is about to happen."
+  },
+  {
+    "pregunta": "What is an «ordeal»?",
+    "opciones": [
+      "A birthday party",
+      "A very difficult or painful experience",
+      "A school lesson",
+      "A quiet walk"
+    ],
+    "correcta": 1,
+    "explicacion": "Living with Count Olaf is an ordeal for the Baudelaires."
   }
 ]
